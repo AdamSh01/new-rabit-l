@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rabit — The control plane for AI agent actions</title>
+<link rel="icon" type="image/png" href="assets/rabit-mark.png" />
+<link rel="apple-touch-icon" href="assets/rabit-mark.png" />
+<meta name="description" content="Intercept, policy-check, and cryptographically audit every action your agents take — with proof every regulator can verify offline.">
+
+<meta property="og:title" content="Rabit — The control plane for AI agent actions">
+<meta property="og:description" content="Cryptographically verifiable pre-execution enforcement for the agentic enterprise.">
+<meta property="og:image" content="assets/og-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rabit — The control plane for AI agent actions">
+<meta name="twitter:description" content="Cryptographically verifiable pre-execution enforcement for the agentic enterprise.">
+<meta name="twitter:image" content="assets/og-card.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Source+Serif+4:opsz,wght@8..60,400&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-accent="amber" data-density="default" data-cc-id="cc-1">
+
+<!-- ===== nav ===== -->
+<nav class="nav" aria-label="primary">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand" aria-label="Rabit, home">
+      <img src="assets/rabit-mark.png" alt="" class="nav-logo" width="26" height="26" />
+      <span class="nav-mark">Rabit</span>
+      <span class="nav-version">v0 · design-partner intake</span>
+    </a>
+    <div class="nav-links">
+      <a href="#pipeline">Pipeline</a>
+      <a href="#standards">Standards</a>
+      <a href="#proof">Proof</a>
+      <a href="#threat-model">Threat model</a>
+    </div>
+    <a class="nav-cta" href="#intake">Book a call</a>
+  </div>
+</nav>
+
+<main class="page">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero section" aria-labelledby="hero-h1">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Rabit · v0 · design-partner intake open</div>
+        <h1 id="hero-h1" class="h1">The control plane for AI agent actions.</h1>
+        <p class="hero-sub">Intercept, policy-check, and cryptographically audit every action your agents take — with proof every regulator can verify offline.</p>
+        <div class="hero-cta-row">
+          <a href="#intake" class="btn btn-primary" data-primary-cta="">Book a design-partner call</a>
+          <a href="#threat-model" class="btn btn-secondary">Read the threat model <span class="arrow">→</span></a>
+        </div>
+        <div class="hero-meta">
+          <span>429 tests passing</span><span class="sep">·</span>
+          <span>OWASP LLM Top 10 2025</span><span class="sep">·</span>
+          <span>NIST SP 800-53 SC-7(5)</span><span class="sep">·</span>
+          <span>EU AI Act Art 12/14</span><span class="sep">·</span>
+          <span>RFC 3161</span>
+        </div>
+      </div>
+
+      <!-- hero viz -->
+      <div class="hero-viz" role="img" aria-label="Pipeline diagram: Intercept, Govern, Execute, Output re-governance, Audit.">
+        <div class="viz-label">
+          <span>Fig 01 / pipeline</span>
+          <button class="viz-replay" id="viz-replay" aria-label="Replay pipeline animation">Replay ↻</button>
+        </div>
+        <svg class="viz-svg" id="hero-svg" viewBox="0 0 440 220" aria-hidden="true">
+          <path id="trunk" class="trunk-line drawn" d="M 30 110 L 410 110"></path>
+          <g class="stage-node" data-stage="0" transform="translate(30,75)">
+            <rect x="0" y="0" width="60" height="70" rx="2"></rect>
+            <text x="30" y="18" text-anchor="middle">01</text>
+            <text x="30" y="40" text-anchor="middle" font-size="8">INTER-</text>
+            <text x="30" y="52" text-anchor="middle" font-size="8">CEPT</text>
+          </g>
+          <g class="stage-node" data-stage="1" transform="translate(110,75)">
+            <rect x="0" y="0" width="60" height="70" rx="2"></rect>
+            <text x="30" y="18" text-anchor="middle">02</text>
+            <text x="30" y="40" text-anchor="middle" font-size="8">GOVERN</text>
+            <text x="30" y="52" text-anchor="middle" font-size="7">L1·L2·L3</text>
+          </g>
+          <g class="stage-node" data-stage="2" transform="translate(190,75)">
+            <rect x="0" y="0" width="60" height="70" rx="2"></rect>
+            <text x="30" y="18" text-anchor="middle">03</text>
+            <text x="30" y="40" text-anchor="middle" font-size="8">EXECUTE</text>
+          </g>
+          <g class="stage-node" data-stage="3" transform="translate(270,75)">
+            <rect x="0" y="0" width="60" height="70" rx="2"></rect>
+            <text x="30" y="18" text-anchor="middle">04</text>
+            <text x="30" y="40" text-anchor="middle" font-size="7">OUTPUT</text>
+            <text x="30" y="52" text-anchor="middle" font-size="7">RE-GOV</text>
+          </g>
+          <g class="stage-node" data-stage="4" transform="translate(350,75)">
+            <rect x="0" y="0" width="60" height="70" rx="2"></rect>
+            <text x="30" y="18" text-anchor="middle">05</text>
+            <text x="30" y="40" text-anchor="middle" font-size="8">AUDIT</text>
+          </g>
+          <g id="verdict-tags" font-family="JetBrains Mono" font-size="7.5" fill="#166534">
+            <text class="v-tag" data-v="0" x="60" y="168" text-anchor="middle" opacity="0">intercept: ok</text>
+            <text class="v-tag" data-v="1" x="140" y="168" text-anchor="middle" opacity="0">govern: allow</text>
+            <text class="v-tag" data-v="2" x="220" y="168" text-anchor="middle" opacity="0">exec: ok</text>
+            <text class="v-tag" data-v="3" x="300" y="168" text-anchor="middle" opacity="0">output: scanned</text>
+            <text class="v-tag" data-v="4" x="380" y="168" text-anchor="middle" opacity="0">audit: appended</text>
+          </g>
+          <rect id="packet" class="packet" x="-6" y="-4" width="8" height="8" rx="1"></rect>
+        </svg>
+        <div class="verdict-chip" id="verdict-chip">
+          <span class="mono">chain #1247 · root 7f3a…b21c</span>
+          <span class="ok mono">tsa ✓</span>
+        </div>
+        <img src="assets/rabit-mark.png" alt="" class="hero-viz-stamp" aria-hidden="true" width="38" height="38" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §01 / PRIOR ART ===== -->
+  <section class="section" aria-labelledby="sec-incidents">
+    <div class="sec-head">
+      <div class="eyebrow">§ 01 / prior art</div>
+      <h2 id="sec-incidents" class="h2">Five incidents from 2025. Each one is what Rabit is designed to prevent.</h2>
+      <p class="lead">These are not hypothetical threat models. Each entry below is a named CVE or disclosed incident from a production AI product in the last ten months. Next to each, the Rabit mechanism that closes it.</p>
+    </div>
+
+    <div class="timeline" id="timeline">
+      <div class="timeline-rule"></div>
+
+      <div class="timeline-row right" data-row="">
+        <div class="timeline-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">2025.06</div>
+          <div class="tl-cve">CVE-2025-32711</div>
+          <div class="tl-name">EchoLeak — Microsoft 365 Copilot</div>
+          <div class="tl-desc">A zero-click prompt-injection class where an attacker-controlled email causes Copilot to exfiltrate tenant data back through its own response content.</div>
+          <div class="tl-rule"></div>
+          <div class="tl-closed-label">Closed by</div>
+          <div class="tl-closed">Output re-governance — a second-pass injection scan on the tool's returned output catches the exfiltration payload before it re-enters the agent context.</div>
+        </div>
+      </div>
+
+      <div class="timeline-row left" data-row="">
+        <div class="timeline-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">2025.07</div>
+          <div class="tl-cve">CVE-2025-8217</div>
+          <div class="tl-name">Amazon Q wiper</div>
+          <div class="tl-desc">An injected system prompt instructed the assistant to wipe the developer's filesystem and AWS resources. Shipped to ~1M installs in v1.84.0; only a syntax error in the payload prevented execution.</div>
+          <div class="tl-rule"></div>
+          <div class="tl-closed-label">Closed by</div>
+          <div class="tl-closed">Policy engine destructive-verb block — L1 regex denies any call matching <code>*.delete_*</code> or <code>rm -rf</code> class patterns before dispatch.</div>
+        </div>
+      </div>
+
+      <div class="timeline-row right" data-row="">
+        <div class="timeline-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">2025.08</div>
+          <div class="tl-cve">CVE-2025-54136</div>
+          <div class="tl-name">MCPoison — Cursor</div>
+          <div class="tl-desc">An MCP server's advertised tool schema could be mutated between approval and invocation, letting a benign-looking tool later execute something the user never consented to.</div>
+          <div class="tl-rule"></div>
+          <div class="tl-closed-label">Closed by</div>
+          <div class="tl-closed">MCP adapter re-validates the tool schema and capability hash on every call, not just at server registration time.</div>
+        </div>
+      </div>
+
+      <div class="timeline-row left" data-row="">
+        <div class="timeline-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">2025.08</div>
+          <div class="tl-cve">CVE-2025-54135</div>
+          <div class="tl-name">CurXecute — Cursor</div>
+          <div class="tl-desc">A crafted MCP response triggered code execution inside the editor's agent loop via the tool-output path.</div>
+          <div class="tl-rule"></div>
+          <div class="tl-closed-label">Closed by</div>
+          <div class="tl-closed">Output re-governance and per-tool egress allowlist — the injected content is flagged before re-entering context; the follow-on call cannot reach its C2 endpoint.</div>
+        </div>
+      </div>
+
+      <div class="timeline-row right" data-row="">
+        <div class="timeline-dot"></div>
+        <div class="tl-card">
+          <div class="tl-date">2025.09</div>
+          <div class="tl-cve">Supply chain · no CVE</div>
+          <div class="tl-name">Postmark-MCP backdoor</div>
+          <div class="tl-desc">A compromised MCP package silently BCC'd all outbound email to an attacker-controlled address. No prompt injection — just a malicious dependency.</div>
+          <div class="tl-rule"></div>
+          <div class="tl-closed-label">Closed by</div>
+          <div class="tl-closed">Per-tool egress allowlist — the BCC destination is not on the allowlist; the SMTP call fails at the socket level and the exfiltration never leaves the host.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §02 / PROPERTIES ===== -->
+  <section class="section" aria-labelledby="sec-props">
+    <div class="sec-head">
+      <div class="eyebrow">§ 02 / properties</div>
+      <h2 id="sec-props" class="h2">Four contracts. Enforced in production, not documented in a wiki.</h2>
+      <p class="lead">Rabit is implemented as four property-based tests that fail CI if any one breaks. Three of them in motion below; the fourth — tenant isolation — is enforced silently at every database query.</p>
+    </div>
+
+    <div class="panes">
+      <!-- pane A -->
+      <div class="pane" id="pane-a">
+        <div class="pane-idx">Pane A · policy</div>
+        <h4>Policy-violating actions, blocked before execution. <span class="std">contract p1</span></h4>
+        <div class="pane-body">
+          <div class="yaml-mini" aria-hidden="true">
+<span class="yline"><span class="yc">policy:</span> <span class="ys">staging-agents-v3</span></span>
+<span class="yline"><span class="yc">allow:</span></span>
+<span class="yline">  - tool: <span class="ys">github.*</span></span>
+<span class="yline"><span class="yc">deny:</span></span>
+<span class="yline" id="pane-a-hl">  - tool: <span class="ys">aws.iam.*</span></span>
+<span class="yline">  - tool: <span class="ys">"*.delete_*"</span></span>
+          </div>
+          <div class="layer-badges">
+            <span class="layer-badge" data-layer="0">L1 regex</span>
+            <span class="layer-badge" data-layer="1">L2 LLM-judge</span>
+            <span class="layer-badge" data-layer="2">L3 drift</span>
+          </div>
+          <div class="cli" id="pane-a-cli" aria-live="polite">
+            <div class="line"><span class="prompt">$</span> <span id="pa-l1"></span></div>
+            <div class="line"><span id="pa-l2"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- pane B -->
+      <div class="pane" id="pane-b">
+        <div class="pane-idx">Pane B · egress</div>
+        <h4>Per-tool egress, deny by default. <span class="std">NIST SP 800-53 SC-7(5)</span></h4>
+        <div class="pane-body">
+          <div class="socket-row" aria-hidden="true">
+            <div class="socket-node">
+              <div class="circ mono" style="font-size:11px;">agent</div>
+              <span>tool=web_fetch</span>
+            </div>
+            <div class="socket-line"></div>
+            <div class="socket-node target">
+              <div class="circ mono" style="font-size:11px;">:443</div>
+              <span>attacker.example</span>
+            </div>
+          </div>
+          <div class="cli" id="pane-b-cli" aria-live="polite">
+            <div class="line"><span class="prompt">$</span> <span id="pb-l1"></span></div>
+            <div class="line"><span id="pb-l2"></span></div>
+            <div class="line"><span class="muted" id="pb-l3"></span></div>
+          </div>
+          <div class="chip-footer"><span class="ok">●</span> NIST SP 800-53 SC-7(5) · enforced</div>
+        </div>
+      </div>
+
+      <!-- pane C -->
+      <div class="pane" id="pane-c">
+        <div class="pane-idx">Pane C · audit</div>
+        <h4>Every action in a hash chain anchored to an RFC 3161 timestamp. <span class="std">contract p4</span></h4>
+        <div class="pane-body">
+          <div class="merkle-wrap">
+            <svg class="merkle-svg" id="merkle-svg" viewBox="0 0 360 140" aria-hidden="true">
+              <g id="merkle-leaves"></g>
+              <g id="merkle-inner"></g>
+              <g id="merkle-edges"></g>
+            </svg>
+          </div>
+          <div class="cli" id="pane-c-cli" aria-live="polite">
+            <div class="line"><span class="prompt">$</span> rabit-verify --honest</div>
+            <div class="line"><span id="pc-l1"></span></div>
+            <div class="line"><span id="pc-l2"></span></div>
+            <div class="line"><span id="pc-l3"></span></div>
+            <div class="line"><span id="pc-l4"></span></div>
+          </div>
+          <button class="merkle-toggle" id="merkle-toggle" aria-pressed="false">Show tamper</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §03 / PIPELINE ===== -->
+  <section class="section" id="pipeline" aria-labelledby="sec-pipe">
+    <div class="sec-head">
+      <div class="eyebrow">§ 03 / pipeline</div>
+      <h2 id="sec-pipe" class="h2">Every agent action passes through five stages. Each one can stop it.</h2>
+    </div>
+
+    <div class="pipeline-diagram">
+      <div class="pipeline-scroll">
+        <svg class="big-pipe-svg" viewBox="0 0 1080 160" aria-hidden="true">
+          <path d="M 40 80 L 1040 80" stroke="#B8B6AC" stroke-width="1" fill="none"></path>
+          <g class="big-stage" data-bstage="0" transform="translate(40,40)">
+            <rect x="0" y="0" width="170" height="80" rx="2"></rect>
+            <text x="16" y="24" class="lbl-idx">01 / INTERCEPT</text>
+            <text x="16" y="56" class="lbl-name">Adapter capture</text>
+          </g>
+          <g class="big-stage" data-bstage="1" transform="translate(245,40)">
+            <rect x="0" y="0" width="170" height="80" rx="2"></rect>
+            <text x="16" y="24" class="lbl-idx">02 / GOVERN</text>
+            <text x="16" y="56" class="lbl-name">L1 · L2 · L3</text>
+          </g>
+          <g class="big-stage" data-bstage="2" transform="translate(450,40)">
+            <rect x="0" y="0" width="170" height="80" rx="2"></rect>
+            <text x="16" y="24" class="lbl-idx">03 / EXECUTE</text>
+            <text x="16" y="56" class="lbl-name">Typed adapter dispatch</text>
+          </g>
+          <g class="big-stage" data-bstage="3" transform="translate(655,40)">
+            <rect x="0" y="0" width="180" height="80" rx="2"></rect>
+            <text x="16" y="24" class="lbl-idx">04 / OUTPUT RE-GOV</text>
+            <text x="16" y="56" class="lbl-name">Second-pass scan</text>
+          </g>
+          <g class="big-stage" data-bstage="4" transform="translate(870,40)">
+            <rect x="0" y="0" width="170" height="80" rx="2"></rect>
+            <text x="16" y="24" class="lbl-idx">05 / AUDIT</text>
+            <text x="16" y="56" class="lbl-name">Hash chain + RFC 3161</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="stage-panels">
+      <div class="stage-panel" data-sp="0">
+        <div class="stage-idx">01 / intercept</div>
+        <p>The agent's intended tool call is captured at the adapter layer before any side effect. The call is serialized, identity-bound (per-agent mTLS), and enqueued to GOVERN. Nothing has left the control plane yet.</p>
+      </div>
+      <div class="stage-panel" data-sp="1">
+        <div class="stage-idx">02 / govern</div>
+        <p>Three layers evaluate the call. L1 regex over structural invariants. L2 Groq-hosted <span class="mono">llama-3.1-8b-instant</span> judge against your policy corpus. L3 MiniLM semantic-drift check. Any layer can deny.</p>
+      </div>
+      <div class="stage-panel" data-sp="2">
+        <div class="stage-idx">03 / execute</div>
+        <p>On allow, the call is dispatched via a typed adapter. Each adapter carries a per-tool egress allowlist; connections to anywhere not on the list fail at the socket level.</p>
+      </div>
+      <div class="stage-panel" data-sp="3">
+        <div class="stage-idx">04 / output re-gov</div>
+        <p>The tool's return value is scanned for injected content before it reaches the agent's context window. This is the stage that closes EchoLeak and the CurXecute class.</p>
+      </div>
+      <div class="stage-panel" data-sp="4">
+        <div class="stage-idx">05 / audit</div>
+        <p>Verdict, payload hash, and evidence append to a tamper-evident chain. <span class="mono">previous_hash</span> is SHA-256 of the prior record; daily leaves hash to a Merkle root timestamped by FreeTSA per RFC 3161.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §04 / STANDARDS ===== -->
+  <section class="section" id="standards" aria-labelledby="sec-std">
+    <div class="sec-head">
+      <div class="eyebrow">§ 04 / standards</div>
+      <h2 id="sec-std" class="h2">Maps to the standards your auditor already has in their checklist.</h2>
+    </div>
+
+    <div class="std-grid">
+      <div class="std-col">
+        <div class="std-id">OWASP LLM TOP 10 · 2025</div>
+        <div class="std-item"><div class="k">LLM01 · prompt injection</div><div class="v">Closed by GOVERN L2 semantic judge + output re-governance.</div></div>
+        <div class="std-item"><div class="k">LLM06 · excessive agency</div><div class="v">Closed by policy corpus and approval gates on risk-tier <span class="mono">sensitive</span> / <span class="mono">high_risk</span>.</div></div>
+        <div class="std-item"><div class="k">LLM07 · system prompt leakage</div><div class="v">Covered in the 200-case eval suite with xfail-tracked regressions.</div></div>
+      </div>
+      <div class="std-col">
+        <div class="std-id">NIST SP 800-53 · Rev 5</div>
+        <div class="std-item"><div class="k">SC-7(5) · deny by default</div><div class="v">Implemented by the per-tool egress allowlist; failures at the socket level.</div></div>
+        <div class="std-item"><div class="k">AU-10 · non-repudiation</div><div class="v">Implemented by the SHA-256 hash chain + RFC 3161 timestamp.</div></div>
+        <div class="std-item"><div class="k">AU-12 · audit generation</div><div class="v">Every allow/deny verdict is appended; SIEM webhook fires on the same event.</div></div>
+      </div>
+      <div class="std-col">
+        <div class="std-id">MITRE ATLAS · v5.4.0</div>
+        <div class="std-item"><div class="k">AML.T0051 · LLM prompt injection</div><div class="v">Evaluated in the adversarial safety suite.</div></div>
+        <div class="std-item"><div class="k">AML.T0053 · LLM plugin compromise</div><div class="v">Evaluated in the MCP adapter test matrix.</div></div>
+        <div class="std-item"><div class="k">AML.T0040 · privilege escalation</div><div class="v">Evaluated via destructive-verb and IAM-scope cases.</div></div>
+      </div>
+      <div class="std-col">
+        <div class="std-id">EU AI ACT · ART 12 + 14</div>
+        <div class="std-item"><div class="k">Art 12 · logging</div><div class="v">Compliance bundle exports a signed ZIP with Merkle anchors.</div></div>
+        <div class="std-item"><div class="k">Art 14 · human oversight</div><div class="v">Approval gates + direct-to-operator escalation on high-risk.</div></div>
+        <div class="std-item"><div class="k">Offline verification</div><div class="v">Regulator runs <span class="mono">rabit-verify</span> with no Rabit servers in the loop.</div></div>
+      </div>
+    </div>
+
+    <div class="std-stat">
+      200 adversarial cases<span class="sep">·</span><span class="emph">188 pass</span><span class="sep">·</span>12 xfail<span class="sep">·</span>zero warnings
+    </div>
+  </section>
+
+  <!-- ===== §05 / POSITIONING ===== -->
+  <section class="section" aria-labelledby="sec-pos">
+    <div class="sec-head">
+      <div class="eyebrow">§ 05 / positioning</div>
+      <h2 id="sec-pos" class="h2" style="max-width:28ch;">Rabit is not a prompt-injection filter. Not an LLM gateway. Not an observability tool.</h2>
+    </div>
+
+    <div class="pos-grid">
+      <div class="pos-item">
+        <h3>Rabit is not a guardrail classifier.</h3>
+        <p>Guardrail classifiers score prompts. Rabit evaluates actions. A classifier that scores the user's message <code>benign</code> will still let the agent's resulting <code>aws.iam.put_user_policy</code> call through. Rabit doesn't care about the prompt; it cares about the tool call.</p>
+      </div>
+      <div class="pos-item">
+        <h3>Rabit is not an LLM gateway.</h3>
+        <p>LLM gateways proxy inference requests and enforce rate limits and PII redaction on the text passing to and from the model. Rabit sits one layer down: between the agent's <em>decision to act</em> and the action itself. You can run Rabit behind an LLM gateway; the two don't overlap.</p>
+      </div>
+      <div class="pos-item">
+        <h3>Rabit is not an observability tool.</h3>
+        <p>Observability tells you, with good latency, that an agent did something unexpected yesterday. Rabit tells the agent, at sub-second latency, that it cannot do the thing now. Observability is post-hoc; Rabit is pre-commit.</p>
+      </div>
+      <div class="pos-item">
+        <h3>Rabit is not a GRC platform.</h3>
+        <p>Vanta and Drata manage the evidence that your controls exist. Rabit <em>is</em> a control. Its compliance bundle is designed to be imported <em>into</em> your GRC workflow, not to replace it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §06 / ALTERNATIVES ===== -->
+  <section class="section" aria-labelledby="sec-alt">
+    <div class="sec-head">
+      <div class="eyebrow">§ 06 / alternatives</div>
+      <h2 id="sec-alt" class="h2">Three ways to put an AI agent in production. Two of them take a quarter.</h2>
+    </div>
+
+    <div class="alt-grid">
+      <div class="alt-card">
+        <div class="alt-head">Build it yourself.</div>
+        <div class="alt-meta">~90 days · ~$400k loaded</div>
+        <p class="alt-desc">You write the control plane. Everything below is on your roadmap instead of your product.</p>
+        <div class="alt-inherit-label">You inherit</div>
+        <ul class="alt-list">
+          <li>The policy engine</li>
+          <li>The hash-chain audit store</li>
+          <li>Merkle timestamping against a TSA</li>
+          <li>The MCP adapter with egress allowlists</li>
+          <li>The 200-case adversarial eval suite</li>
+          <li>Maintaining all of the above — while shipping your product</li>
+        </ul>
+      </div>
+
+      <div class="alt-card">
+        <div class="alt-head">Observe and hope.</div>
+        <div class="alt-meta">$0 upfront · uncapped incident cost</div>
+        <p class="alt-desc">You instrument the agent, ship it, and read the dashboards the morning after.</p>
+        <div class="alt-inherit-label">You inherit</div>
+        <ul class="alt-list">
+          <li>A dashboard that tells you about EchoLeak the next morning</li>
+          <li>A post-incident Slack channel</li>
+          <li>An auditor asking for controls you don't have</li>
+          <li>A compliance bundle you can't produce</li>
+        </ul>
+      </div>
+
+      <div class="alt-card emph">
+        <div class="alt-head">Rabit.</div>
+        <div class="alt-meta">Design-partner · deploys in your VPC in under a day</div>
+        <p class="alt-desc">Four contracts enforced in production. Offline-verifiable audit. A compliance bundle your auditor already knows how to read.</p>
+        <div class="alt-inherit-label">You inherit</div>
+        <ul class="alt-list">
+          <li>Four property-based contracts in production</li>
+          <li>A standalone verifier CLI your regulator runs offline</li>
+          <li>Compliance bundle mapped to EU AI Act Art 12/14</li>
+          <li>The 200-case eval suite against OWASP / NIST / MITRE</li>
+          <li>Direct Slack with the founder</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §07 / PROOF ===== -->
+  <section class="section" id="proof" aria-labelledby="sec-proof">
+    <div class="sec-head">
+      <div class="eyebrow">§ 07 / proof</div>
+      <h2 id="sec-proof" class="h2">Read the source. Run the verifier. Check the tests.</h2>
+    </div>
+
+    <!-- Architecture diagram -->
+    <div class="proof-arch">
+      <div class="arch-caption">
+        <span>Fig 02 / architecture</span>
+        <span>as deployed in staging</span>
+      </div>
+      <div class="arch-scroll">
+        <svg class="arch-svg" viewBox="0 0 1040 340" aria-hidden="true">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#6B6B66"></path>
+            </marker>
+          </defs>
+          <style>
+            .ab { fill: #FFFFFF; stroke: #B8B6AC; stroke-width: 1; }
+            .ab-accent { fill: #FFFFFF; stroke: #B45309; stroke-width: 1.5; }
+            .at { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #0A0A0A; }
+            .am { font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #6B6B66; letter-spacing: 0.06em; text-transform: uppercase; }
+            .al { stroke: #B8B6AC; stroke-width: 1; fill: none; }
+            .el { font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #6B6B66; }
+          </style>
+
+          <rect class="ab" x="20" y="140" width="120" height="60" rx="2"></rect>
+          <text class="am" x="32" y="158">CLIENT</text>
+          <text class="at" x="32" y="180">AI agent</text>
+
+          <rect class="ab-accent" x="190" y="140" width="130" height="60" rx="2"></rect>
+          <text class="am" x="202" y="158">01 / INTERCEPT</text>
+          <text class="at" x="202" y="180">FastAPI</text>
+
+          <rect class="ab" x="370" y="30" width="140" height="54" rx="2"></rect>
+          <text class="am" x="382" y="48">L1 REGEX</text>
+          <text class="at" x="382" y="68">rulepack</text>
+
+          <rect class="ab" x="370" y="110" width="140" height="54" rx="2"></rect>
+          <text class="am" x="382" y="128">L2 LLM-JUDGE</text>
+          <text class="at" x="382" y="148">groq · llama-3.1-8b</text>
+
+          <rect class="ab" x="370" y="190" width="140" height="54" rx="2"></rect>
+          <text class="am" x="382" y="208">L3 DRIFT</text>
+          <text class="at" x="382" y="228">MiniLM</text>
+
+          <rect class="ab" x="370" y="270" width="140" height="54" rx="2"></rect>
+          <text class="am" x="382" y="288">QUEUE</text>
+          <text class="at" x="382" y="308">Celery</text>
+
+          <rect class="ab" x="560" y="140" width="130" height="60" rx="2"></rect>
+          <text class="am" x="572" y="158">03 / EXECUTE</text>
+          <text class="at" x="572" y="180">MCP adapter</text>
+
+          <rect class="ab" x="740" y="30" width="140" height="54" rx="2"></rect>
+          <text class="am" x="752" y="48">STORE</text>
+          <text class="at" x="752" y="68">MongoDB · Fernet</text>
+
+          <rect class="ab" x="740" y="110" width="140" height="54" rx="2"></rect>
+          <text class="am" x="752" y="128">05 / AUDIT</text>
+          <text class="at" x="752" y="148">SHA-256 chain</text>
+
+          <rect class="ab-accent" x="740" y="190" width="140" height="54" rx="2"></rect>
+          <text class="am" x="752" y="208">TIMESTAMP</text>
+          <text class="at" x="752" y="228">FreeTSA · RFC 3161</text>
+
+          <rect class="ab" x="740" y="270" width="140" height="54" rx="2"></rect>
+          <text class="am" x="752" y="288">SINK</text>
+          <text class="at" x="752" y="308">SIEM webhook</text>
+
+          <rect class="ab" x="920" y="140" width="110" height="60" rx="2"></rect>
+          <text class="am" x="932" y="158">CONSUMER</text>
+          <text class="at" x="932" y="180">Your SIEM</text>
+
+          <path class="al" d="M 140 170 L 190 170" marker-end="url(#arr)"></path>
+          <text class="el" x="148" y="164">mTLS</text>
+
+          <path class="al" d="M 320 158 L 370 56" marker-end="url(#arr)"></path>
+          <path class="al" d="M 320 170 L 370 136" marker-end="url(#arr)"></path>
+          <path class="al" d="M 320 182 L 370 216" marker-end="url(#arr)"></path>
+          <path class="al" d="M 320 192 L 370 296" marker-end="url(#arr)"></path>
+
+          <path class="al" d="M 510 56 L 560 162" marker-end="url(#arr)"></path>
+          <path class="al" d="M 510 136 L 560 170" marker-end="url(#arr)"></path>
+          <path class="al" d="M 510 216 L 560 178" marker-end="url(#arr)"></path>
+
+          <path class="al" d="M 690 170 L 920 170" marker-end="url(#arr)"></path>
+          <text class="el" x="790" y="164">SIEM webhook</text>
+
+          <path class="al" d="M 625 140 L 740 56" marker-end="url(#arr)"></path>
+          <path class="al" d="M 625 140 L 740 136" marker-end="url(#arr)"></path>
+          <path class="al" d="M 810 164 L 810 190"></path>
+          <path class="al" d="M 810 244 L 810 270"></path>
+
+          <rect class="ab" x="560" y="240" width="130" height="50" rx="2"></rect>
+          <text class="am" x="572" y="258">04 / OUTPUT RE-GOV</text>
+          <text class="at" x="572" y="278">Fernet-encrypted</text>
+          <path class="al" d="M 625 200 L 625 240"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- policy + verifier -->
+    <div class="code-row">
+      <div class="code-block">
+        <div class="cap"><span>Rabit policy · 14 lines of YAML</span><span>policy.yaml</span></div>
+<pre><span class="yc">policy:</span> <span class="ys">staging-agents-v3</span>
+<span class="yc">identity:</span>
+  <span class="yk">require:</span> <span class="ys">mtls</span>
+<span class="yc">allow:</span>
+  - <span class="yk">tool:</span> <span class="ys">github.*</span>
+    <span class="yk">when:</span> agent in [<span class="ys">"pr-review-bot"</span>]
+  - <span class="yk">tool:</span> <span class="ys">slack.post_message</span>
+    <span class="yk">when:</span> channel in [<span class="ys">"#agent-notify"</span>]
+<span class="yc">deny:</span>
+  - <span class="yk">tool:</span> <span class="ys">aws.iam.*</span>
+  - <span class="yk">tool:</span> <span class="ys">"*.delete_*"</span>
+  - <span class="yk">network:</span> <span class="ys">"*.internal.corp"</span>
+<span class="yc">audit:</span> <span class="ys">all</span>
+<span class="yc">approval_required:</span>
+  - <span class="yk">risk_tier:</span> [<span class="ys">sensitive</span>, <span class="ys">high_risk</span>]</pre>
+      </div>
+
+      <div class="verifier" id="verifier">
+        <div class="cap"><span>rabit-verify · offline run</span><span>435 lines of python</span></div>
+<pre id="verifier-pre"><span class="prompt">$</span> rabit-verify ./bundle-2026-04-15.zip
+<span class="ok">[OK]</span>  bundle signature verified (Ed25519)
+<span class="ok">[OK]</span>  1,247 entries — hash chain intact
+<span class="ok">[OK]</span>  merkle root matches leaf set <span class="muted">(sha256:7f3a…b21c)</span>
+<span class="ok">[OK]</span>  RFC 3161 timestamp valid — 2026-04-15T23:59:59Z
+<span class="ok">[OK]</span>  OWASP LLM01, LLM06, LLM07 evidence present
+<span class="ok">[OK]</span>  NIST SP 800-53 SC-7(5) evidence present
+<span class="ok">[OK]</span>  EU AI Act Art 12 log completeness verified
+verification complete — <span class="ok">0 errors</span>
+<span class="muted">trust anchor: offline</span></pre>
+      </div>
+    </div>
+
+    <!-- audit chain blocks -->
+    <div class="chain-row" id="chain-row">
+      <div class="chain-block" data-chain="0">
+        <div class="idx">#1243</div>
+        <div class="hash">7f3a…b21c</div>
+        <div class="prev">prev 0000…root</div>
+        <div class="chain-connector"></div>
+      </div>
+      <div class="chain-block" data-chain="1">
+        <div class="idx">#1244</div>
+        <div class="hash">a92e…0f44</div>
+        <div class="prev">prev 7f3a…b21c</div>
+        <div class="chain-connector"></div>
+      </div>
+      <div class="chain-block" data-chain="2">
+        <div class="idx">#1245</div>
+        <div class="hash">c81d…9a17</div>
+        <div class="prev">prev a92e…0f44</div>
+        <div class="chain-connector"></div>
+      </div>
+      <div class="chain-block" data-chain="3">
+        <div class="idx">#1246</div>
+        <div class="hash">5b20…ee38</div>
+        <div class="prev">prev c81d…9a17</div>
+        <div class="chain-connector"></div>
+      </div>
+      <div class="chain-block" data-chain="4">
+        <div class="idx">#1247</div>
+        <div class="hash">0e77…41cb</div>
+        <div class="prev">prev 5b20…ee38</div>
+      </div>
+    </div>
+
+    <div class="proof-foot">
+      <div class="note">Tap or click a block to simulate tamper. Rabit-verify is 435 lines of Python — your regulator runs it without trusting our servers.</div>
+      <a href="https://github.com/AdamSh01/Rabit-POC/blob/main/rabit_poc_final.ipynb" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">See the rabit-verify source <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <!-- ===== §08 / THREAT MODEL ===== -->
+  <section class="section" id="threat-model" aria-labelledby="sec-threat">
+    <div class="sec-head">
+      <div class="eyebrow">§ 08 / threat model</div>
+      <h2 id="sec-threat" class="h2">If you don't see your threat here, we'd like to know.</h2>
+      <p class="lead">Rabit's policy boundary is built around four canonical taxonomies. Below, the threat catalogue Rabit is designed to close — mapped paragraph-by-paragraph to OWASP LLM Top 10 2025, MITRE ATLAS v5.4.0, NIST AI 100-2e2025, and our own STRIDE adaptation for AI agent action surfaces.</p>
+    </div>
+
+    <!-- Sub-block A: Extended CVE timeline -->
+    <div class="threat-sub">
+      <div class="threat-sub-head">
+        <div class="threat-sub-id">A · extended catalogue</div>
+        <p class="threat-sub-note">Five from 2025 already in §01. Five more below — and the catalogue grows weekly.</p>
+      </div>
+
+      <div class="timeline threat-timeline visible">
+        <div class="timeline-rule"></div>
+
+        <div class="timeline-row right visible">
+          <div class="timeline-dot"></div>
+          <div class="tl-card">
+            <div class="tl-date">2024.08</div>
+            <div class="tl-cve">No CVE · PromptArmor</div>
+            <div class="tl-name">Slack AI prompt-injection exfil</div>
+            <div class="tl-desc">Crafted public channel message coerced Slack AI to leak data from private channels via Markdown link rendering.</div>
+            <div class="tl-rule"></div>
+            <div class="tl-closed-label">Closed by</div>
+            <div class="tl-closed">Output re-governance flags imperative instructions in tool returns; per-tool egress allowlist denies the rendered link's destination.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row left visible">
+          <div class="timeline-dot"></div>
+          <div class="tl-card">
+            <div class="tl-date">2025.05</div>
+            <div class="tl-cve">No CVE · Legit Security</div>
+            <div class="tl-name">GitLab Duo prompt injection</div>
+            <div class="tl-desc">Hidden text in a merge request description coerced Duo into executing attacker-supplied prompts when a developer asked Duo to summarise.</div>
+            <div class="tl-rule"></div>
+            <div class="tl-closed-label">Closed by</div>
+            <div class="tl-closed">Output re-governance scans tool returns for instruction-shaped content before they reach the agent context window.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row right visible">
+          <div class="timeline-dot"></div>
+          <div class="tl-card">
+            <div class="tl-date">2025.07</div>
+            <div class="tl-cve">Public incident · no CVE</div>
+            <div class="tl-name">Replit DB deletion</div>
+            <div class="tl-desc">An autonomous code agent executed a destructive database command without an approval gate, wiping a production dataset.</div>
+            <div class="tl-rule"></div>
+            <div class="tl-closed-label">Closed by</div>
+            <div class="tl-closed">L1 destructive-verb regex blocks any <code>*.delete_*</code>, <code>drop_*</code>, <code>truncate_*</code> patterns; risk-tier <span class="mono">high_risk</span> requires explicit approval.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row left visible">
+          <div class="timeline-dot"></div>
+          <div class="tl-card">
+            <div class="tl-date">2026.01</div>
+            <div class="tl-cve">CVE-2026-21520</div>
+            <div class="tl-name">Copilot Studio ShareLeak indirect injection</div>
+            <div class="tl-desc">Capsule Security found Copilot Studio agents triggered by SharePoint forms concatenated untrusted form input directly into the agent's prompt, allowing a fake system-role injection that exfiltrated SharePoint List data via Outlook.</div>
+            <div class="tl-rule"></div>
+            <div class="tl-closed-label">Closed by</div>
+            <div class="tl-closed">Output re-governance scans tool returns for instruction-shaped content; per-tool egress allowlist denies the Outlook destination when not on the approved sender list.</div>
+          </div>
+        </div>
+
+        <div class="timeline-row right visible">
+          <div class="timeline-dot"></div>
+          <div class="tl-card">
+            <div class="tl-date">2026.03</div>
+            <div class="tl-cve">Research · Gray Swan IPI Arena Q1 2026</div>
+            <div class="tl-name">Indirect prompt injection ASR across 13 frontier models</div>
+            <div class="tl-desc">Gray Swan IPI Arena (with UK AISI / US CAISI as judges; Anthropic, OpenAI, Google DeepMind, Meta, Amazon as sponsors) tested 13 frontier models with 272K attack attempts across 41 agentic scenarios. ASR ranged from 0.5% (Claude Opus 4.5) to 8.5% (Gemini 2.5 Pro). Tool-use was the most vulnerable setting at 4.82%.</div>
+            <div class="tl-rule"></div>
+            <div class="tl-closed-label">Closed by</div>
+            <div class="tl-closed">Defense-in-depth pipeline: even if L2 LLM-judge is bypassed, L3 drift, output re-governance, and per-tool egress provide three further chokepoints.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub-block B: STRIDE matrix -->
+    <div class="threat-sub">
+      <div class="threat-sub-head">
+        <div class="threat-sub-id">B · STRIDE for AI agent action surfaces</div>
+      </div>
+      <div class="stride-table">
+        <div class="stride-row stride-head">
+          <div>STRIDE category</div>
+          <div>Threat against an AI agent</div>
+          <div>Rabit mitigation</div>
+        </div>
+        <div class="stride-row">
+          <div class="stride-cat"><span class="stride-letter">S</span> Spoofing</div>
+          <div>An adversary impersonates an agent's identity to issue tool calls in its name.</div>
+          <div>Per-agent mTLS at the intercept layer; identity is bound to the call envelope before GOVERN evaluates.</div>
+        </div>
+        <div class="stride-row">
+          <div class="stride-cat"><span class="stride-letter">T</span> Tampering</div>
+          <div>The audit log is modified after the fact to hide an unauthorised action.</div>
+          <div>SHA-256 hash chain linking every record; daily Merkle root anchored to RFC 3161 timestamp. Any tampering breaks chain integrity, detectable offline by rabit-verify.</div>
+        </div>
+        <div class="stride-row">
+          <div class="stride-cat"><span class="stride-letter">R</span> Repudiation</div>
+          <div>An operator denies that an agent under their control performed a high-risk action.</div>
+          <div>Every approval is recorded with the operator's identity, timestamp, and the specific risk-tier escalation that triggered it. AU-10 non-repudiation.</div>
+        </div>
+        <div class="stride-row">
+          <div class="stride-cat"><span class="stride-letter">I</span> Information Disclosure</div>
+          <div>An agent exfiltrates sensitive data to an attacker-controlled destination via a legitimate tool capability.</div>
+          <div>Per-tool egress allowlist (NIST SP 800-53 SC-7(5)) denies sockets to non-approved hosts at the connect() layer, before any payload is sent.</div>
+        </div>
+        <div class="stride-row">
+          <div class="stride-cat"><span class="stride-letter">D</span> Denial of Service</div>
+          <div>An adversary exhausts the agent's quota or recursion depth to deny service to legitimate users.</div>
+          <div>Per-agent rate budgets at the GOVERN layer; recursion-depth caps; all outside the trust boundary of the agent itself.</div>
+        </div>
+        <div class="stride-row">
+          <div class="stride-cat"><span class="stride-letter">E</span> Elevation of Privilege</div>
+          <div>An agent originally scoped to read-only escalates to write or admin via a chained tool sequence.</div>
+          <div>Risk-tier transitions trigger approval gates; tool-graph reachability is enforced ahead of dispatch; IAM-scope expansion is denied at L1.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub-block C: Standards alignment -->
+    <div class="threat-sub">
+      <div class="threat-sub-head">
+        <div class="threat-sub-id">C · standards alignment</div>
+      </div>
+      <div class="std-grid threat-std-grid">
+        <div class="std-col">
+          <div class="std-id">OWASP LLM TOP 10 · 2025</div>
+          <div class="std-item"><div class="k">LLM01</div><div class="v">prompt injection</div></div>
+          <div class="std-item"><div class="k">LLM02</div><div class="v">sensitive disclosure</div></div>
+          <div class="std-item"><div class="k">LLM03</div><div class="v">supply chain</div></div>
+          <div class="std-item"><div class="k">LLM05</div><div class="v">improper output</div></div>
+          <div class="std-item"><div class="k">LLM06</div><div class="v">excessive agency</div></div>
+          <div class="std-item"><div class="k">LLM07</div><div class="v">system prompt leak</div></div>
+        </div>
+        <div class="std-col">
+          <div class="std-id">MITRE ATLAS · v5.4.0</div>
+          <div class="std-item"><div class="k">AML.T0051</div><div class="v">prompt injection</div></div>
+          <div class="std-item"><div class="k">AML.T0052</div><div class="v">retrieval crafting</div></div>
+          <div class="std-item"><div class="k">AML.T0053</div><div class="v">plugin compromise</div></div>
+          <div class="std-item"><div class="k">AML.T0040</div><div class="v">privilege escalation</div></div>
+          <div class="std-item"><div class="k">AML.T0054</div><div class="v">jailbreak</div></div>
+          <div class="std-item"><div class="k">AML.T0056</div><div class="v">meta prompt</div></div>
+        </div>
+        <div class="std-col">
+          <div class="std-id">NIST AI 100-2e2025</div>
+          <div class="std-item"><div class="k">§3.1</div><div class="v">direct prompt injection</div></div>
+          <div class="std-item"><div class="k">§3.2</div><div class="v">indirect prompt injection</div></div>
+          <div class="std-item"><div class="k">§3.4</div><div class="v">model evasion</div></div>
+          <div class="std-item"><div class="k">§3.7</div><div class="v">supply chain</div></div>
+          <div class="std-item"><div class="k">§3.8 [*]</div><div class="v">data poisoning</div></div>
+          <div class="std-item"><div class="k">—</div><div class="v">&nbsp;</div></div>
+        </div>
+        <div class="std-col">
+          <div class="std-id">EU AI ACT · ART 12 + 14</div>
+          <div class="std-item"><div class="k">Art 12</div><div class="v">logging</div></div>
+          <div class="std-item"><div class="k">Art 14</div><div class="v">human oversight</div></div>
+          <div class="std-item"><div class="k">—</div><div class="v">&nbsp;</div></div>
+          <div class="std-item"><div class="k">—</div><div class="v">&nbsp;</div></div>
+          <div class="std-item"><div class="k">—</div><div class="v">&nbsp;</div></div>
+          <div class="std-item"><div class="k">—</div><div class="v">&nbsp;</div></div>
+        </div>
+      </div>
+      <p class="threat-foot">[*] Data poisoning is upstream of Rabit's trust boundary — Rabit assumes the model itself may be adversarial and validates every action regardless. Detection of poisoning is in scope for v2.</p>
+    </div>
+
+    <!-- Sub-block D: Disclosure -->
+    <div class="threat-disclosure">
+      <p>If you find a threat Rabit doesn't yet close, email <a href="mailto:adam.shibli2001@gmail.com">adam.shibli2001@gmail.com</a> with subject <span class="mono">"RABIT-DISCLOSURE"</span>. We'll respond within 48 hours, credit you on the changelog (when it exists), and add the threat to the suite. Rabit's adversarial eval suite has 200 cases today; we add new cases every time a threat is reported or published.</p>
+    </div>
+  </section>
+
+  <!-- ===== §09 / FIT ===== -->
+  <section class="section" aria-labelledby="sec-fit">
+    <div class="sec-head">
+      <div class="eyebrow">§ 09 / fit</div>
+      <h2 id="sec-fit" class="h2">Two kinds of teams should be on this page. If you're not one of them, come back in six months.</h2>
+    </div>
+
+    <div class="persona-grid">
+      <div class="persona-card">
+        <div class="tag">Persona A</div>
+        <h3>Security / platform engineer.</h3>
+        <p>You run the infrastructure AI agents run on. You've already had one "oh shit" moment this quarter. You know what SC-7(5) is without looking it up. You will click <span class="mono">view-source</span> on the verifier CLI. You want the compliance bundle before you want the feature.</p>
+      </div>
+      <div class="persona-card">
+        <div class="tag">Persona B</div>
+        <h3>AI platform lead.</h3>
+        <p>You're the person rolling agents into production. Security and legal are blocking you. You need a single artifact you can hand to both teams that answers their actual questions — policy, audit, egress, evidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== §10 / INTAKE ===== -->
+  <section class="section cta-section" id="intake" aria-labelledby="sec-intake">
+    <div class="cta-inner">
+      <div class="eyebrow">§ 10 / intake</div>
+      <h2 id="sec-intake">We're taking five design partners in Q2 2026.</h2>
+      <p>Design partners get direct Slack with the founder, a 24-hour response on every incident, deployment in your VPC within one business day, and a seat at the roadmap table. In exchange, we ask for one 30-minute call a week and the right to cite you once you're comfortable. We'll only take the meeting if you're running agents in production today.</p>
+
+      <div class="cal-embed">
+        <div class="cal-head">
+          <span class="slot-name">Design-partner intake — 30 min with Adam Shibli</span>
+          <span>Cal.com · 30 min</span>
+        </div>
+        <div class="cal-grid">
+          <div>
+            <div class="cal-cal-header"><span id="cal-month">April 2026</span><span>→</span></div>
+            <div class="cal-days"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+            <div class="cal-grid-days" id="cal-grid-days"></div>
+          </div>
+          <div>
+            <div class="cal-cal-header"><span>Available slots</span><span id="cal-selected-day">Apr 28</span></div>
+            <div class="cal-slots" id="cal-slots"></div>
+          </div>
+        </div>
+
+        <p class="cal-prefill-hint">Pick a time slot above so we can pre-fill it for you, then fill out the form.</p>
+
+        <form class="cal-form visible" id="cal-form" action="https://formspree.io/f/mvzwznak" method="POST">
+          <input type="hidden" name="_subject" value="Rabit design-partner intake">
+          <input type="hidden" name="selected_slot" id="cf-slot" value="">
+          <div>
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="name" required placeholder="Jane Doe">
+          </div>
+          <div>
+            <label for="cf-email">Work email</label>
+            <input type="email" id="cf-email" name="email" required placeholder="jane@yourdomain.com">
+          </div>
+          <div>
+            <label for="cf-co">Company</label>
+            <input type="text" id="cf-co" name="company" required placeholder="Acme Platform">
+          </div>
+          <div>
+            <label for="cf-msg">What are your agents doing in production today?</label>
+            <textarea id="cf-msg" name="message" required placeholder="One or two sentences is fine."></textarea>
+          </div>
+          <button type="submit" class="submit">Confirm booking</button>
+        </form>
+      </div>
+
+      <div class="cta-foot">
+        Prefer email? <a href="mailto:adam.shibli2001@gmail.com">adam.shibli2001@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== footer ===== -->
+  <footer class="foot">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-mark"><img src="assets/rabit-mark.png" alt="" class="foot-logo" width="36" height="36" /><span>Rabit</span></div>
+        <div class="foot-tag">The control plane for AI agent actions.</div>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#pipeline">Pipeline</a></li>
+          <li><a href="#standards">Standards</a></li>
+          <li><a href="#threat-model">Threat model</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Engineering</h4>
+        <ul>
+          <li><a href="https://github.com/AdamSh01/Rabit-POC" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://github.com/AdamSh01/Rabit-POC/blob/main/rabit_poc_final.ipynb" target="_blank" rel="noopener noreferrer">rabit-verify source</a></li>
+          <li><a href="https://github.com/AdamSh01/Rabit-POC/blob/main/rabit_poc_final.ipynb" target="_blank" rel="noopener noreferrer">Docs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:adam.shibli2001@gmail.com">adam.shibli2001@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/adam-shibli/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>Rabit · © 2026</div>
+    </div>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+
+</body>
+</html>
